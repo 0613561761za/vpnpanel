@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    @if(!isset($servers))
+                    @if($servers->count() < 1)
 
                         <h2 style="text-align: center;">NO SERVER AVAILABLE.</h2>
                     @else
