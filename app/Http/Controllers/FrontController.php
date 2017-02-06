@@ -482,6 +482,24 @@ class FrontController extends Controller
             echo $vexpire->account_name . ' deleted!';
           }
         }
+    }
 
+    public function dnsList()
+    {
+      $dns = DNSM::get();
+
+      return view('admin.dns-domain-list')->with('dnss', $dns);
+    }
+
+    public function dnsDomainDelete($id)
+    {
+      $dns = DNSM::where('domain_id', $id)->first();
+
+      if(!$dns)
+      {
+        return abort(503);
+      }
+
+      return DNSM::where('domain_id', $id)->delete();
     }
 }

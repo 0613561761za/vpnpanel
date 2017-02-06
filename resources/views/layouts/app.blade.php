@@ -113,6 +113,7 @@
                         <ul class="dropdown-menu">
                           <li><a href="{{url('/manage/admin/dns/add?utm_source=nav&hash_id=' . md5(uniqid()))}}">Add DNS</a></li>
                           <li><a href="{{url('/manage/admin/dns/?utm_source=nav&hash_id=' . md5(uniqid()))}}">DNS List</a></li>
+                          <li><a href="{{url('/manage/admin/dns/list?utm_source=nav&hash_id=' . md5(uniqid()))}}">DNS Domain List</a></li>
                         </ul>
                       </li>
                       <li class="dropdown">

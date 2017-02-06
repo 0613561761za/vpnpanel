@@ -102,4 +102,6 @@ Route::group(['middleware' => 'admin'], function(){
 	});
 	Route::post('/manage/admin/ads/add', 'AdsController@store');
 	Route::post('/manage/admin/ads/delete/{id}', ['uses' => 'AdsController@destroy']);
+	Route::get('/manage/admin/dns/list', 'FrontController@dnsList');
+	Route::get('/manage/admin/dns/domain/delete/{id}', 'FrontController@dnsDomainDelete');
 });
