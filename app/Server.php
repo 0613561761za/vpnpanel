@@ -13,6 +13,6 @@ class Server extends Model
      */
 
     protected $fillable = [
-    	'server_id', 'server_name', 'server_user', 'server_password', 'server_ip', 'server_host', 'server_country', 'server_protocol', 'server_port', 'server_limit', 'server_is_limit', 'server_config'
+    	'server_id', 'server_name', 'server_user', 'server_password', 'server_ip', 'server_host', 'server_country', 'server_protocol', 'server_port', 'server_limit', 'server_is_limit', 'server_config', 'server_type','server_group','server_account_expired'
     ];
 }

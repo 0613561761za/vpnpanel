@@ -7,8 +7,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center;">Welcome to admin panel!</div>
                 <div class="panel-body">
-                @if(!isset($servers))
-                    {{abort(404)}}
+                @if($servers->count() < 1)
+                    <h2 style="text-align: center;">NO SERVER FOUND</h2>
                 @else
                     <div class="table-responsive">          
                       <table class="table">
@@ -19,6 +19,7 @@
                             <th>Server Country</th>
                             <th>Server Proto</th>
                             <th>Server Create Date</th>
+                            <th>Server Type</th>
                             <th>Server Action</th>
                           </tr>
                         </thead>
@@ -29,7 +30,9 @@
                                     <td>{{$server->server_ip}}</td>
                                     <td>{{$server->server_country}}</td>
                                     <td>{{$server->server_protocol}}</td>
-                                    <td>{{$server->created_at->diffForHumans()}}</td>
+                                    <td>{{$server->created_at->diffForHumans()}}
+                                    <td>{{$server->server_type}}</td>
+                                    </td>
                                     <td>
                                         <a class="btn btn-danger btn-xs" onclick="deleteServer({{$server->server_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                     </td>

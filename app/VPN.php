@@ -21,7 +21,7 @@ class VPN extends Model
      */
 
    protected $fillable = [
-   		'account_name', 'account_password', 'account_server', 'account_create', 'account_expired', 'account_id'
+   		'account_name', 'account_password', 'account_server', 'account_create', 'account_expired', 'account_id', 'account_status'
    ];
 
    /**

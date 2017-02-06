@@ -16,9 +16,9 @@ class VPNController extends Controller
      */
     public function index()
     {
-        $vpn = Server::get();
+        $vpn = VPN::get();
 
-        return view('admin.vpn-list')->with('servers', $vpn);
+        return view('admin.vpn-account-list')->with('datas', $vpn);
     }
 
     /**
@@ -94,13 +94,15 @@ class VPNController extends Controller
         $account_details = VPN::where('account_id', $id)->first();
         if(!$account_details)
         {
-            return abort(404);
+            return abort(503);
         }
 
-        $server_details = Server::where('server_ip', $account_details->account_server)->first();
+        $server_details = Server::where('server_ip', $account_details->account_server)
+                                ->where('server_type', 'vpn')
+                                ->first();
         if(!$server_details)
         {
-            return abort(404);
+            return abort(503);
         }
 
         $ssh = new Net\SSH2($server_details->server_ip);

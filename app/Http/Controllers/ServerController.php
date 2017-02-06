@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Server;
+use App\Group;
 
 class ServerController extends Controller
 {
@@ -37,34 +38,74 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
-        $server = Server::where('server_ip', $request->serverip)->first();
-        if(!$server)
+        if($request->servertype == 'vpn')
         {
-            // insert server to database
-            Server::create([
-                'server_name' => $request->servername,
-                'server_ip' => $request->serverip,
-                'server_host' => $request->serverhost,
-                'server_user' => $request->serveruser,
-                'server_password' => $request->serverpassword,
-                'server_country' => $request->servercountry,
-                'server_protocol' => $request->serverproto,
-                'server_port' => $request->serverport,
-                'server_limit' => $request->serverlimit,
-                'server_is_limit' => 0,
-                'server_config' => $request->serverconfig,
-            ]);
+            $server = Server::where('server_ip', $request->serverip)->where('server_type', 'vpn')->first();
+
+            if(!$server)
+            {
+                Server::create([
+                    'server_name' => $request->servername,
+                    'server_ip' => $request->serverip,
+                    'server_host' => $request->serverhost,
+                    'server_user' => $request->serveruser,
+                    'server_password' => $request->serverpassword,
+                    'server_country' => $request->servercountry,
+                    'server_protocol' => $request->serverproto,
+                    'server_port' => $request->serverport,
+                    'server_limit' => $request->serverlimit,
+                    'server_type' => $request->servertype,
+                    'server_is_limit' => 0,
+                    'server_group' => $request->servergroup,
+                    'server_account_expired' => $request->serverexpired,
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Server successfully added!'
+                ]);
+            }
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Server successfully added!'
+                'status' => 'exists',
+                'message' => 'Server with IP ' . $request->serverip . ' already added!',
             ]);
-        } 
+            
+        }
 
-        return response()->json([
-            'status' => 'exists',
-            'message' => 'Server with IP ' . $request->serverip . ' already added!',
-        ]);
+        if($request->servertype == 'ssh')
+        {
+
+            $server = Server::where('server_ip', $request->serverip)->where('server_type', 'ssh')->first();
+
+            if(!$server)
+            {
+                Server::create([
+                    'server_name' => $request->servername,
+                    'server_ip' => $request->serverip,
+                    'server_host' => $request->serverhost,
+                    'server_user' => $request->serveruser,
+                    'server_password' => $request->serverpassword,
+                    'server_country' => $request->servercountry,
+                    'server_port' => $request->serverport,
+                    'server_limit' => $request->serverlimit,
+                    'server_type' => $request->servertype,
+                    'server_is_limit' => 0,
+                    'server_group' => $request->servergroup,
+                    'server_account_expired' => $request->serverexpired,
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Server successfully added!'
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'Server with IP ' . $request->serverip . ' already added!',
+            ]);
+        }
     }
 
     /**
@@ -73,15 +114,11 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $server = Server::where('server_id', $id)->first();
-        if(!$server)
-        {
-            return abort(404);
-        }
+        $group = Group::get();
 
-        return view('admin.show-server')->with('server', $server);
+        return view('admin.server-add')->with('groups', $group);
     }
 
     /**
@@ -116,5 +153,12 @@ class ServerController extends Controller
     public function destroy($id)
     {
         return Server::where('server_id', $id)->delete();
+    }
+
+    public function showSSH()
+    {
+        $server = Server::where('server_type', 'ssh')->get();
+
+        return view('server.ssh')->with('servers', $server);
     }
 }

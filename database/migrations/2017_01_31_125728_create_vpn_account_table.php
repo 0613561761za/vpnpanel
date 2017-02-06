@@ -20,6 +20,7 @@ class CreateVpnAccountTable extends Migration
             $table->string('account_server');
             $table->string('account_create');
             $table->String('account_expired');
+            $table->boolean('account_status');
             $table->timestamps();
         });
     }

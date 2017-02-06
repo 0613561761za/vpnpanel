@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Server;
 use App\VPN;
 use App\User;
+use App\Group;
 use Carbon\Carbon;
 use \phpseclib\Net;
 use Illuminate\Support\Facades\Hash;
@@ -20,8 +21,14 @@ class MainController extends Controller
     public function index()
     {
         $server = Server::get();
+        $geoip  = $this->curl('http://freegeoip.net/json');
+        $group  = Group::get();
 
-        return view('welcome')->with('servers', $server) ;
+
+
+        return view('welcome')-> with('servers', $server) 
+                              -> with('geo', json_decode($geoip))
+                              -> with('groups', $group);
     }
 
     /**
@@ -200,5 +207,16 @@ class MainController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function curl($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        $result = curl_exec($ch);
+        return $result;
     }
 }

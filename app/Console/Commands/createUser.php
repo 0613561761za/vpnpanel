@@ -12,7 +12,7 @@ class createUser extends Command
      *
      * @var string
      */
-    protected $signature = 'vpnpanel:create';
+    protected $signature = 'create';
 
     /**
      * The console command description.

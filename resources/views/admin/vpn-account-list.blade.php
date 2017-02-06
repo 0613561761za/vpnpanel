@@ -7,8 +7,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center;">Welcome to admin panel!</div>
                 <div class="panel-body">
-                @if(!isset($datas))
-                    {{abort(404)}}
+                @if($datas->count() < 1)
+                    <h2 style="text-align: center;">NO VPN ACCOUNT FOUND.</h2>
                 @else
 
                     <div class="table-responsive">          

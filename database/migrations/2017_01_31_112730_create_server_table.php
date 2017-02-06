@@ -21,11 +21,13 @@ class CreateServerTable extends Migration
             $table->string('server_user');
             $table->string('server_password');
             $table->string('server_country');
-            $table->string('server_protocol');
+            $table->string('server_protocol')->nullable();
             $table->string('server_port');
             $table->string('server_limit');
             $table->string('server_is_limit')->default(0);
-            $table->text('server_config');
+            $table->string('server_type');
+            $table->string('server_group');
+            $table->string('server_account_expired');
             $table->timestamps();
         });
     }
