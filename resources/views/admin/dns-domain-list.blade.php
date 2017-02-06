@@ -20,7 +20,7 @@
                                 <th>DNS Name</th>
                                 <th>DNS Domain</th>
                                 <th>DNS Create Date</th>
-                                <th>Squid Action</th>
+                                <th>DNS Action</th>
                               </tr>
                             </thead>
                             <tbody>
