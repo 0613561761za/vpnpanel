@@ -423,7 +423,7 @@ class FrontController extends Controller
 
         if($expiredSSH->count() < 1)
         {
-          echo "No SSH Account Expired today!";
+          echo "No SSH Account Expired today! <br />";
         }
         else
         {
@@ -444,7 +444,7 @@ class FrontController extends Controller
 
         if($expiredVPN->count() < 1)
         {
-          echo "NO VON Account Expired Today!";
+          echo "NO VPN Account Expired Today!<br />";
         }
         else
         {
