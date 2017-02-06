@@ -93,6 +93,8 @@ class FrontController extends Controller
     			'account_status' => true,
     		]);
 
+        Server::where('server_id', $server->server_id)->increment('server_is_limit');
+
     		return response()->json([
     			'status' => 'success',
     			'result' => [
@@ -169,6 +171,8 @@ class FrontController extends Controller
       			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
       			'account_status' => true,
       		]);
+
+          Server::where('server_id', $server->server_id)->increment('server_is_limit');
 
       		return response()->json([
       			'status' => 'success',
