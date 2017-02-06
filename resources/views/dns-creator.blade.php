@@ -70,7 +70,7 @@
 
         <div class="col-md-12">
             <hr />
-            <p style="text-align: center;font-weight: bold;">Copyright &copy; {{date('Y')}} VPN Panel & Successfully create over {{App\Color::account()}} SSH & VPN Account.</p>
+            <p style="text-align: center;font-weight: bold;">Copyright &copy; {{date('Y')}} {{config('app.name')}} & Successfully create over {{App\Color::account()}} SSH & VPN Account.</p>
         </div>
     </div>
 </div>
