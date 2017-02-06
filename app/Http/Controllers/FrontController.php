@@ -66,7 +66,7 @@ class FrontController extends Controller
 
     	if(!$user)
     	{
-    		if($server->server_limit == $server->server_id_limit)
+    		if($server->server_limit == $server->server_is_limit)
         {
           return response()->json([
             'status' => 'error',
