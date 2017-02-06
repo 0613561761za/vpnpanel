@@ -31,7 +31,7 @@
                                         <td>{{$group->domain_domain}}</td>
                                         <td>{{$group->created_at->diffForHumans()}}</td>
                                         <td>
-                                            <a class="btn btn-danger btn-xs" onclick="deleteDNSDomain({{$group->domain_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
+                                            <a class="btn btn-danger btn-xs" onclick="deleteDomain({{$group->domain_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach

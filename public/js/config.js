@@ -1139,7 +1139,7 @@ function deleteADS(id,csrf)
     });
 }
 
-function deleteDNSDomain(id,csrf)
+function deleteDomain(id,csrf)
 {
     swal({
       title: "Are you sure?",
