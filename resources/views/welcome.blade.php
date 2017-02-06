@@ -13,7 +13,7 @@
                         <!-- advertising -->
 
                         <div class="center-block" style="margin-left: 30%;">
-                            {!! @App\Ads::where('ads_type', 'horizontal')->orWehre('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
+                            {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
                         <div class="panel panel-warning">
