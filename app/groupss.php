@@ -15,7 +15,7 @@ class groupss
 
       foreach($groups as $group)
       {
-        echo "Select Server " . $group->group_country;
+        echo "<a href='/groups/" . $group->group_id . "'>Select Server " . $group->group_country . '</a>';
       }
     }
 }
