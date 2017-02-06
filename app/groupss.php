@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use Group;
+use \App\Group;
 
 class groupss
 {
