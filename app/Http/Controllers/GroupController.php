@@ -67,7 +67,14 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+	  $group = Group::where('group_id',$id)->first();
+
+	if(!$group)
+	{
+		return abort(404);
+	}
+
+	return view('group-server')->with('group', $group);
     }
 
     /**
