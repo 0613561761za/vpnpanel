@@ -21,7 +21,7 @@ class MainController extends Controller
     public function index()
     {
         $server = Server::get();
-        $geoip  = $this->curl('http://freegeoip.net/json');
+        $geoip  = $this->curl('http://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR']);
         $group  = Group::get();
 
 
