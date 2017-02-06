@@ -12,7 +12,7 @@
                         <hr />
                         <!-- advertising -->
 
-                        <div class="center-block" style="margin-left: 30%;">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                             {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
@@ -22,7 +22,7 @@
                                 <form id="host-to-ip" method="get" action="/tools/host-to-ip">
                                     <label>Hostname or Domain Name</label>
                                     <input type="text" class="form-control" name="hostname">
-                                    <hr /> 
+                                    <hr />
                                     <button id="btn-host-to-ip" class="btn btn-warning" style="width: 100%">Check!</button>
                                 </form>
                                 <div id="result">
@@ -43,11 +43,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                     {!! @App\Ads::where('ads_type', 'vertical')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
-                </div>
-            </div>
+            {!! @App\Ads::where('ads_type', 'vertical')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
         </div>
 
         <div class="col-md-12">

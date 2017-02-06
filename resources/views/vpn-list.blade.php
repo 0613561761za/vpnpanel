@@ -12,12 +12,12 @@
                         <hr />
                         <!-- advertising -->
 
-                        <div class="center-block" style="margin-left: 30%;">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                             {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
                         <div class="panel panel-danger">
-                            <div class="panel-body"> 
+                            <div class="panel-body">
                                 @if($vpns->count() < 1)
                                     <h2 style="text-align: center;">Whoops! No VPN Server found.</h2>
                                 @else
@@ -45,8 +45,8 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                @endif 
-                            </div>                               
+                                @endif
+                            </div>
 
                         </div>
                     </div>
@@ -61,12 +61,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
-                </div>
-            </div>
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
         </div>
         <div class="col-md-12">
             <hr />

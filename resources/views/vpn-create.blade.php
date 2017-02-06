@@ -11,12 +11,12 @@
                         <p style="text-align: center;font-size: 20px;">VPN (Virtual Private Server) is secure tunnel connection to change real IP address and reroute all connection traffic through that server.</p>
                         <hr />
 
-                        <div class="center-block" style="margin-left: 30%;">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                             {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
                         <div class="panel panel-warning">
-                            <div class="panel-body"> 
+                            <div class="panel-body">
                                 <div class="col-md-6">
                                 	<div class="panel panel-warning">
                                 		<div class="panel-body">
@@ -35,10 +35,10 @@
 	                                		</form>
                                 		</div>
                                 	</div>
-                            	</div> 
+                            	</div>
                             	<div class="col-md-6" id="vpn-result">
                                 	{!! @App\Ads::where('ads_type', 'responsive')->first()->ads_body !!}
-                            	</div>                               
+                            	</div>
                         	</div>
                     	</div>
                 	</div>
@@ -53,12 +53,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {!! @App\Ads::where('ads_type', 'vertical')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
-                </div>
-            </div>
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              {!! @App\Ads::where('ads_type', 'vertical')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
         </div>
         <div class="col-md-12">
             <hr />

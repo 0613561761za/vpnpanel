@@ -12,7 +12,7 @@
                         <hr />
                         <!-- advertising -->
 
-                        <div class="center-block" style="margin-left: 30%;">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                             {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
@@ -33,7 +33,7 @@
 	                            		<button id="btn-port-check" class="btn btn-danger" style="text-align: center;width: 100%;">Check!</button>
 	                            	</div>
 	                            	<div class="col-md-12" id="result">
-	                            		
+
 
 	                            	</div>
                         		</form>
@@ -52,11 +52,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
-                </div>
-            </div>
+            {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
         </div>
 
         <div class="col-md-12">
