@@ -72,6 +72,13 @@
                         <li><a href="{{url('/pages/squid-proxy?utm_source=nav&hash_id=' . md5(uniqid()))}}">SQUID List</a></li>
                       </ul>
                     </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">GROUPS <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li>{{@App\groupss::groups()}}</li>
+                      </ul>
+                    </li>
+
           @if(!Auth::guest())
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SERVER <span class="caret"></span></a>
