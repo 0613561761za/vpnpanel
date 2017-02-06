@@ -26,7 +26,7 @@ class MainController extends Controller
 
 
 
-        return view('welcome')-> with('servers', $server) 
+        return view('welcome')-> with('servers', $server)
                               -> with('geo', json_decode($geoip))
                               -> with('groups', $group);
     }
@@ -49,7 +49,7 @@ class MainController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $now = Carbon::now();
 
         $server = Server::where('server_id', $request->server_id)->first();
@@ -75,7 +75,7 @@ class MainController extends Controller
                 ]);
             }
 
-            // send command to server. 
+            // send command to server.
 
             $ssh = new Net\SSH2($server->server_ip);
             if(!$ssh->login($server->server_user,$server->server_password))
@@ -109,12 +109,12 @@ class MainController extends Controller
                 'created' => date('d/m/Y'),
                 'expired' => $now->addDays(7)->diffForHumans(),
                 'config' => $server->server_config,
-            ]); 
-        
+            ]);
+
         }
 
 
-        
+
     }
 
     /**
@@ -161,12 +161,12 @@ class MainController extends Controller
             {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Password confirmation error!' 
+                    'message' => 'Password confirmation error!'
                 ]);
             }
 
             User::where('email', $request->oldemail)
-               -> update(['email' => $request->cemail]); 
+               -> update(['email' => $request->cemail]);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Password changed successfully!'

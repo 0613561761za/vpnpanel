@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Group;
+use App\Server;
 
 class GroupController extends Controller
 {
@@ -67,14 +68,21 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-	  $group = Group::where('group_id',$id)->first();
 
-	if(!$group)
-	{
-		return abort(404);
-	}
+        $group = Group::where('group_id',$id)->first();
 
-	return view('group-server')->with('group', $group);
+    	if(!$group)
+    	{
+    		return abort(404);
+    	}
+
+        $server = Server::where('server_group', $group->group_name)->get();
+        if(!$server)
+        {
+            return abort(404);
+        }
+
+	    return view('group-server')->with('servers', $server);
     }
 
     /**

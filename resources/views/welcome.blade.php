@@ -67,7 +67,7 @@
                                 @endforeach
                             </ul>
                             <hr />
-                            <a class="btn btn-danger" style="width: 100%">Discover!</a>
+                            <a class="btn btn-danger" style="width: 100%" href="/groups/{{$group->group_id}}">Discover!</a>
                         </div>
                     </div>
                 </div>
