@@ -10,7 +10,7 @@ class groupss
       $groups = Group::get();
       if($groups->count() < 1)
       {
-        return "No Groups Found"
+        return "No Groups Found";
       }
 
       foreach($groups as $group)
