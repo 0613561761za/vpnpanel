@@ -62,11 +62,11 @@ class FrontController extends Controller
     		return abort(503);
     	}
 
-    	$user = SSH::where('account_name', $request->username)->where('account_server', $server->server_ip)->first();
+    	$user = SSH::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->first();
 
     	if(!$user)
     	{
-    		if($server->server_limit == $server->server_account_expired)
+    		if($server->server_limit == $server->server_id_limit)
         {
           return response()->json([
             'status' => 'error',
@@ -145,41 +145,49 @@ class FrontController extends Controller
     		return abort(503);
     	}
 
-    	$user = VPN::where('account_name', $request->username)->where('account_server', $server->server_ip)->first();
+    	$user = VPN::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->first();
 
     	if(!$user)
     	{
-    		//create ssh account
-    		$ssh = new Net\SSH2($server->server_ip);
-    		if(!$ssh->login($server->server_user,$server->server_password))
-    		{
-    			return abort(503);
-    		}
+    		if($server->server_limit != $server->server_is_limit)
+        {
+          //create ssh account
+      		$ssh = new Net\SSH2($server->server_ip);
+      		if(!$ssh->login($server->server_user,$server->server_password))
+      		{
+      			return abort(503);
+      		}
 
-    		$ssh->exec('sudo useradd ' . @Domain::first()->watermark . '-' . $request->username . ' -m -s /bin/false');
-    		$ssh->exec('echo ' . @Domain::first()->watermark . '-' . $request->username . ':' . $request->password . ' | chpasswd');
+      		$ssh->exec('sudo useradd ' . @Domain::first()->watermark . '-' . $request->username . ' -m -s /bin/false');
+      		$ssh->exec('echo ' . @Domain::first()->watermark . '-' . $request->username . ':' . $request->password . ' | chpasswd');
 
-    		VPN::create([
-    			'account_name' => @Domain::first()->watermark . '-' . $request->username,
-    			'account_password' => $request->password,
-    			'account_server' => $server->server_ip,
-    			'account_create' => \Carbon\Carbon::now(),
-    			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
-    			'account_status' => true,
-    		]);
+      		VPN::create([
+      			'account_name' => @Domain::first()->watermark . '-' . $request->username,
+      			'account_password' => $request->password,
+      			'account_server' => $server->server_ip,
+      			'account_create' => \Carbon\Carbon::now(),
+      			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
+      			'account_status' => true,
+      		]);
 
-    		return response()->json([
-    			'status' => 'success',
-    			'result' => [
-    				'username' => @Domain::first()->watermark . '-' . $request->username,
-    				'password' => $request->password,
-    				'created' => date('d-m-Y'),
-    				'expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired)->diffForHumans(),
-    				'ip' => $server->server_ip,
-    				'host' => $server->server_host,
-    			],
-    			'message' => 'VPN Account created successfully!'
-    		]);
+      		return response()->json([
+      			'status' => 'success',
+      			'result' => [
+      				'username' => @Domain::first()->watermark . '-' . $request->username,
+      				'password' => $request->password,
+      				'created' => date('d-m-Y'),
+      				'expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired)->diffForHumans(),
+      				'ip' => $server->server_ip,
+      				'host' => $server->server_host,
+      			],
+      			'message' => 'VPN Account created successfully!'
+      		]);
+        }
+
+        return response()->json([
+      		'status' => 'exists',
+      		'message' => 'VPN Account is already exists!'
+      	]);
     	}
 
     	return response()->json([
