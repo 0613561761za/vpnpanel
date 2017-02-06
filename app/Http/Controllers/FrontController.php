@@ -66,7 +66,15 @@ class FrontController extends Controller
 
     	if(!$user)
     	{
-    		//create ssh account
+    		if($server->server_limit == $server->server_account_expired)
+        {
+          return response()->json([
+            'status' => 'error',
+            'message' => 'Daily limit reached!'
+          ]);
+        }
+
+        //create ssh account
     		$ssh = new Net\SSH2($server->server_ip);
     		if(!$ssh->login($server->server_user,$server->server_password))
     		{
