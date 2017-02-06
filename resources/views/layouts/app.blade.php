@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Home</a>
+              <a class="navbar-brand" href="{{url('/')}}">Home</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,7 +71,7 @@
                         <li><a href="{{url('/pages/ssh-checker?utm_source=nav&hash_id=' . md5(uniqid()))}}">SSH Account Checker</a></li>
                         <li><a href="{{url('/pages/squid-proxy?utm_source=nav&hash_id=' . md5(uniqid()))}}">SQUID List</a></li>
                       </ul>
-                    </li>               
+                    </li>
           @if(!Auth::guest())
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SERVER <span class="caret"></span></a>
@@ -115,6 +115,7 @@
                           <li><a href="{{url('/manage/admin/ads/?utm_source=nav&hash_id=' . md5(uniqid()))}}">Ads List</a></li>
                         </ul>
                       </li>
+                      <li><a href="{{url('manage/admin/logout?utm_source=nav&hash_id=' . md5(uniqid()))}}">LOGOUT <span class="sr-only">(current)</span></a></li>
                     </div><!-- /.navbar-collapse -->
                   </div><!-- /.container-fluid -->
                 </ul>

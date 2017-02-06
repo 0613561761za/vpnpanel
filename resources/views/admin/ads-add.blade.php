@@ -18,9 +18,9 @@
                     			<input type="text" class="form-control" name="adsname" placeholder="Ex: ads 1">
                     			<label for="adstype">Ads Type : </label>
                     			<select class="form-control" name="adstype">
-                    				<option>Vertikal</option>
-                    				<option>Horizontal</option>
-                    				<option>Responsive (recomended)</option>
+                    				<option>vertical</option>
+                    				<option>horizontal</option>
+                    				<option>responsive</option>
                     			</select>
                     			<label>Ads Code (HTML) : </label>
                     			<textarea class="form-control" name="adscode" placeholder="Ads Code" rows="5"></textarea>

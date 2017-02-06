@@ -61,7 +61,7 @@ class FrontController extends Controller
     	{
     		return abort(503);
     	}
-    	
+
     	$user = SSH::where('account_name', $request->username)->where('account_server', $server->server_ip)->first();
 
     	if(!$user)
@@ -84,7 +84,7 @@ class FrontController extends Controller
     			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
     			'account_status' => true,
     		]);
-    		
+
     		return response()->json([
     			'status' => 'success',
     			'result' => [
@@ -98,7 +98,7 @@ class FrontController extends Controller
     			'message' => 'SSH Account created successfully!'
     		]);
     	}
-    	
+
     	return response()->json([
     		'status' => 'exists',
     		'message' => 'Account is already exists!'
@@ -136,7 +136,7 @@ class FrontController extends Controller
     	{
     		return abort(503);
     	}
-    	
+
     	$user = VPN::where('account_name', $request->username)->where('account_server', $server->server_ip)->first();
 
     	if(!$user)
@@ -159,7 +159,7 @@ class FrontController extends Controller
     			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
     			'account_status' => true,
     		]);
-    		
+
     		return response()->json([
     			'status' => 'success',
     			'result' => [
@@ -173,7 +173,7 @@ class FrontController extends Controller
     			'message' => 'VPN Account created successfully!'
     		]);
     	}
-    	
+
     	return response()->json([
     		'status' => 'exists',
     		'message' => 'VPN Account is already exists!'
@@ -207,7 +207,7 @@ class FrontController extends Controller
     {
 
         try {
-            $result = fsockopen($request->ip,$request->port);    
+            $result = fsockopen($request->ip,$request->port);
         } catch (\ErrorException $e) {
             return response()->json([
                 'status' => 'error',
@@ -251,11 +251,11 @@ class FrontController extends Controller
         {
             //create
             $cf_email = Domain::first()->cloudflare_email_address;
-            $cf_api   = Domain::first()->cloudflare_api_key; 
+            $cf_api   = Domain::first()->cloudflare_api_key;
 
             /**
             * Get Zone ID First.
-            */      
+            */
 
             $header = [
                 'X-Auth-Key: ' . $cf_api,
@@ -270,7 +270,7 @@ class FrontController extends Controller
                 $id   = $objects->result[0]->id;
                 /**
                  * Create Record
-                 */ 
+                 */
                 $data = [
                     'type' => 'A',
                     'name' => $request->hostname,
@@ -289,7 +289,7 @@ class FrontController extends Controller
                    return response()->json([
                         'status' => 'error',
                         'message' => 'DNS Already Exists'
-                    ]); 
+                    ]);
                 }
 
                 DNS::create([
@@ -363,7 +363,7 @@ class FrontController extends Controller
 
         if(!$server)
         {
-            return abort(503); 
+            return abort(503);
         }
 
         $ssh = new Net\SSH2($server->server_ip);
@@ -395,7 +395,7 @@ class FrontController extends Controller
                     'username' => $request->username,
                     'server' => $request->server_host,
                 ],
-            ]); 
+            ]);
         }
 
         return response()->json([
@@ -405,7 +405,7 @@ class FrontController extends Controller
                     'username' => $request->username,
                     'server' => $request->server_host,
                 ],
-        ]); 
+        ]);
     }
 
     public function squid()
@@ -413,5 +413,55 @@ class FrontController extends Controller
         $squid = Squid::get();
 
         return view('squid-proxy')->with('squids',$squid);
+    }
+
+    public function runCrons()
+    {
+        $now = \Carbon\Carbon::now();
+        $expiredSSH = SSH::where('account_expired',$now)->get();
+        $expiredVPN = VPN::where('account_expired',$now)->get();
+
+        if($expiredSSH->count() < 1)
+        {
+          echo "No SSH Account Expired today!";
+        }
+        else
+        {
+          // delete all account
+          foreach($expiredSSH as $sexpire)
+          {
+              $server = Server::where('server_ip', $sexpire->account_server)->first();
+              $ssh = new Net\SSH2($server->server_ip);
+              if(!$ssh->login($server->server_user,$server->server_password))
+              {
+                echo "Can't connect to server!";
+              }
+
+              $ssh->exec('userdel ' . $sexpire->account_name);
+              echo $sexpire->account_name . ' deleted!';
+          }
+        }
+
+        if($expiredVPN->count() < 1)
+        {
+          echo "NO VON Account Expired Today!";
+        }
+        else
+        {
+          // delete all account
+          foreach($expiredVPN as $vexpire)
+          {
+            $server = Server::where('server_ip', $vexpire->account_server)->first();
+            $ssh = new Net\SSH2($server->server_ip);
+            if(!$ssh->login($server->server_user,$server->server_password))
+            {
+              echo "Can't connect to server!";
+            }
+
+            $ssh->exec('userdel ' . $vexpire->account_name);
+            echo $vexpire->account_name . ' deleted!';
+          }
+        }
+
     }
 }

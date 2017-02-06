@@ -11,7 +11,7 @@
                     @if($sshs->count() < 1)
                         <h2 style="text-align: center;">NO SSH ACCOUNT FOUND.</h2>
                     @else
-                        <div class="table-responsive">          
+                        <div class="table-responsive">
                           <table class="table">
                             <thead>
                               <tr>
@@ -30,7 +30,7 @@
                                         <td>{{$ssh->account_server}}</td>
                                         <td>{{$ssh->created_at->diffForHumans()}}</td>
                                         <td>
-                                            <a class="btn btn-danger btn-xs" onclick="deleteSSH('{{$server->account_id}}', '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
+                                            <a class="btn btn-danger btn-xs" onclick="deleteSSH('{{$ssh->account_id}}', '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach

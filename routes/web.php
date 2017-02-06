@@ -38,12 +38,13 @@ Route::get('/pages/ssh-checker', 'FrontController@sshChecker');
 Route::post('/pages/ssh-checker', 'FrontController@postSshChecker');
 Route::get('/pages/squid-proxy', 'FrontController@squid');
 Route::get('/groups/{id}','GroupController@show');
+Route::get('/crons/runcrons', 'FrontController@runCrons');
 
 // Authentication Routes...
 $this->get('/manage/admin/login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('/manage/admin/login', 'Auth\LoginController@login');
 $this->get('/manage/admin/logout', 'Auth\LoginController@logout')->name('logout');
-	
+
 /**
  * End
  */
@@ -102,5 +103,3 @@ Route::group(['middleware' => 'admin'], function(){
 	Route::post('/manage/admin/ads/add', 'AdsController@store');
 	Route::post('/manage/admin/ads/delete/{id}', ['uses' => 'AdsController@destroy']);
 });
-
-
