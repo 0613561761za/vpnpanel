@@ -12,7 +12,7 @@
                         <hr />
                         <!-- advertising -->
 
-                        <div class="center-block" style="margin-left: 30%;">
+                        <div class="center-block">
                             {!! @App\Ads::where('ads_type', 'horizontal')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                         </div>
                         <hr />
