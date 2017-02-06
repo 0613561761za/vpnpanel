@@ -37,7 +37,7 @@
             <div class="panel panel-default visible-lg">
                 <div class="panel-heading" style="text-align: center;">advertising</div>
                 <div class="panel-body">
-                {!! @App\Ads::where('ads_type', 'vertical')->inRandomOrder()->first()->ads_body !!}
+                {!! @App\Ads::where('ads_type', 'vertical')->orWhere('ads_type', 'responsive')->inRandomOrder()->first()->ads_body !!}
                 </div>
             </div>
         </div>
