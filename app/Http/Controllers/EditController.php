@@ -62,7 +62,7 @@ class EditController extends Controller
 
         $limit = $server->server_is_limit;
 
-        Server::where('server_id', $id)->where('server_type', 'vpn')->update([
+        Server::where('server_id', $id)->where('server_type', 'ssh')->update([
           'server_name' => $request->servername,
           'server_ip' => $request->serverip,
           'server_host' => $request->serverhost,
