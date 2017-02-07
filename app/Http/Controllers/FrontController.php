@@ -62,19 +62,19 @@ class FrontController extends Controller
     		return abort(503);
     	}
 
-    	$user = SSH::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->first();
+    	$user = SSH::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->where('account_status', 1)->first();
 
     	if(!$user)
     	{
     		if($server->server_limit == $server->server_is_limit)
-        {
-          return response()->json([
-            'status' => 'error',
-            'message' => 'Daily limit reached!'
-          ]);
-        }
+            {
+              return response()->json([
+                'status' => 'error',
+                'message' => 'Daily limit reached!'
+              ]);
+            }
 
-        //create ssh account
+            //create ssh account
     		$ssh = new Net\SSH2($server->server_ip);
     		if(!$ssh->login($server->server_user,$server->server_password))
     		{
@@ -90,7 +90,7 @@ class FrontController extends Controller
     			'account_server' => $server->server_ip,
     			'account_create' => \Carbon\Carbon::now(),
     			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
-    			'account_status' => true,
+    			'account_status' => 1,
     		]);
 
         Server::where('server_id', $server->server_id)->increment('server_is_limit');
@@ -147,7 +147,7 @@ class FrontController extends Controller
     		return abort(503);
     	}
 
-    	$user = VPN::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->first();
+    	$user = VPN::where('account_name', @Domain::first()->watermark . '-' . $request->username)->where('account_server', $server->server_ip)->where('account_status', 1)->first();
 
     	if(!$user)
     	{
@@ -169,7 +169,7 @@ class FrontController extends Controller
       			'account_server' => $server->server_ip,
       			'account_create' => \Carbon\Carbon::now(),
       			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
-      			'account_status' => true,
+      			'account_status' => 1,
       		]);
 
           Server::where('server_id', $server->server_id)->increment('server_is_limit');
@@ -458,6 +458,9 @@ class FrontController extends Controller
               }
 
               $ssh->exec('userdel ' . $sexpire->account_name);
+              SSH::where('account_name', $sexpire->account_name)->where('account_server', $server->server_ip)->update([
+                'account_status' => 0,
+              ]);
               echo $sexpire->account_name . ' deleted!';
           }
         }
@@ -479,9 +482,14 @@ class FrontController extends Controller
             }
 
             $ssh->exec('userdel ' . $vexpire->account_name);
+            VPN::where('account_name', $sexpire->account_name)->where('account_server', $server->server_ip)->update([
+                'account_status' => 0,
+            ]);
             echo $vexpire->account_name . ' deleted!';
           }
         }
+
+        Server::update(['server_is_limit' => 0]);
     }
 
     public function dnsList()

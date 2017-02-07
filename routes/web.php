@@ -104,4 +104,12 @@ Route::group(['middleware' => 'admin'], function(){
 	Route::post('/manage/admin/ads/delete/{id}', ['uses' => 'AdsController@destroy']);
 	Route::get('/manage/admin/dns/list', 'FrontController@dnsList');
 	Route::post('/manage/admin/dns/domain/delete/{id}', 'FrontController@dnsDomainDelete');
+	Route::get('/manage/admin/ads/edit/{id}', ['uses' => 'EditController@ads']);
+	Route::post('/manage/admin/ads/edit/{id}', ['uses' => 'EditController@postAds']);
+	Route::get('/manage/admin/server/ssh/edit/{id}', ['uses' => 'EditController@ssh']);
+	Route::post('/manage/admin/server/ssh/edit/{id}', ['uses' => 'EditController@postSSH']);
+	Route::get('/manage/admin/server/vpn/edit/{id}', ['uses' => 'EditController@vpn']);
+	Route::post('/manage/admin/server/vpn/edit/{id}', ['uses' => 'EditController@postVPN']);
+	Route::get('/manage/admin/group/edit/{id}', ['uses' => 'EditController@group']);
+	Route::post('/manage/admin/group/edit/{id}', ['uses' => 'EditController@postGroup']);
 });

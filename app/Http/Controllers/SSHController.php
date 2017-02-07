@@ -16,7 +16,7 @@ class SSHController extends Controller
      */
     public function index()
     {
-        $ssh = SSH::get();
+        $ssh = SSH::where('account_status', 1)->get();
 
         return view('admin.ssh-list')->with('sshs', $ssh);
     }
@@ -108,6 +108,6 @@ class SSHController extends Controller
 
         $ssh->exec('userdel ' . $sshs->account_name);
 
-        return SSH::where('account_id', $id)->delete();
+        return SSH::where('account_id', $id)->update(['account_status' => 0]);
     }
 }

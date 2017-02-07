@@ -16,7 +16,7 @@ class VPNController extends Controller
      */
     public function index()
     {
-        $vpn = VPN::get();
+        $vpn = VPN::where('account_status', 1)->get();
 
         return view('admin.vpn-account-list')->with('datas', $vpn);
     }
@@ -113,6 +113,6 @@ class VPNController extends Controller
 
         $ssh->exec('userdel ' . $account_details->account_name);
 
-        return VPN::where('account_id', $id)->delete();
+        return VPN::where('account_id', $id)->update(['account_status' => 0]);
     }
 }

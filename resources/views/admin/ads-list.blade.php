@@ -12,7 +12,7 @@
                         <h2 style="text-align: center;">NO ADS FOUND.</h2>
                         <hr />
                     @else
-                        <div class="table-responsive">          
+                        <div class="table-responsive">
                           <table class="table">
                             <thead>
                               <tr>
@@ -31,6 +31,7 @@
                                         <td>{{$group->ads_type}}</td>
                                         <td>{{$group->created_at->diffForHumans()}}</td>
                                         <td>
+                                            <a class="btn btn-warning btn-xs" href="/manage/admin/ads/edit/{{$group->ads_id}}"><span class="fa fa-pencil"></span> Edit</a>
                                             <a class="btn btn-danger btn-xs" onclick="deleteADS({{$group->ads_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                     </tr>

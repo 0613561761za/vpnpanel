@@ -13,7 +13,7 @@
                         <hr />
                         <a style="width: 100%;text-align: center;" href="{{url('/manage/admin/squid/add')}}" class="btn btn-success">Add Now!</a>
                     @else
-                        <div class="table-responsive">          
+                        <div class="table-responsive">
                           <table class="table">
                             <thead>
                               <tr>
@@ -34,6 +34,7 @@
                                         <td>{{$group->created_at->diffForHumans()}}</td>
                                         <td>{!!($group->status == true) ? '<label class="label label-success">Online</label>' : '<label class="label label-danger">Offline</label>'!!}</td>
                                         <td>
+                                            <a class="btn btn-warning btn-xs" href="/manage/admin/squid/edit/{{$group->squid_id}}"><span class="fa fa-trash"></span> Edit</a>
                                             <a class="btn btn-danger btn-xs" onclick="deleteSquid({{$group->squid_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                     </tr>

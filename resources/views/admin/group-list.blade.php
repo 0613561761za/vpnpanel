@@ -19,7 +19,7 @@
                         <div class="alert alert-info" style="text-align: center;">
                             Group digunakan untuk mengelompokan server tergantung asal server tersebut, seperti Asia, Eropa, Africa dll.
                         </div>
-                        <div class="table-responsive">          
+                        <div class="table-responsive">
                           <table class="table">
                             <thead>
                               <tr>
@@ -39,6 +39,7 @@
                                         <td>{{$group->created_at->diffForHumans()}}
                                         </td>
                                         <td>
+                                            <a class="btn btn-warning btn-xs" href="/manage/admin/group/edit/{{$group->group_id}}"><span class="fa fa-pencil"></span> Edit</a>
                                             <a class="btn btn-danger btn-xs" onclick="deleteGroup({{$group->group_id}}, '{{csrf_token()}}')"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                     </tr>
