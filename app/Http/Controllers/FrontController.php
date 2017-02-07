@@ -489,7 +489,8 @@ class FrontController extends Controller
           }
         }
 
-        Server::update(['server_is_limit' => 0]);
+        Server::where('server_is_limit', '!=', 0)->update(['server_is_limit' => 0]);
+        echo "Daily limit flushed! <br />";
     }
 
     public function dnsList()
