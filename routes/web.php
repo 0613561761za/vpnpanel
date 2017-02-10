@@ -38,7 +38,8 @@ Route::get('/pages/ssh-checker', 'FrontController@sshChecker');
 Route::post('/pages/ssh-checker', 'FrontController@postSshChecker');
 Route::get('/pages/squid-proxy', 'FrontController@squid');
 Route::get('/groups/{id}','GroupController@show');
-Route::get('/crons/runcrons', 'FrontController@runCrons');
+Route::get('/crons/userexpired', 'FrontController@runExpiredCrons');
+Route::get('/crons/serverlimit', 'FrontController@runServerLimitCrons');
 
 // Authentication Routes...
 $this->get('/manage/admin/login', 'Auth\LoginController@showLoginForm')->name('login');

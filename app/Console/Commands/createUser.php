@@ -38,6 +38,9 @@ class createUser extends Command
      */
     public function handle()
     {
+        
+        echo " [ Today : " . \Carbon\Carbon::now() . "]";
+        echo PHP_EOL;
         $username = $this->ask('Username ');
         $email = $this->ask('Email Address ');
         $password = $this->secret('Password (You can\'t see what you typed in.)');

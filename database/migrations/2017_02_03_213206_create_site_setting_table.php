@@ -20,6 +20,7 @@ class CreateSiteSettingTable extends Migration
             $table->string('cloudflare_api_key');
             $table->string('cloudflare_email_address');
             $table->string('watermark');
+            $table->string('allowed_ip');
             $table->timestamps();
         });
     }

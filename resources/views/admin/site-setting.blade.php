@@ -25,6 +25,8 @@
                                         <input type="text" name="cloudflare_email_address" class="form-control" placeholder="Ex: blabla@gmail.com">
                                         <label>Site Wtermark</label>
                                         <input type="text" name="watermark" class="form-control" placeholder="Ex: domain.com (domain.com-userssh)">
+                                        <label>Crons Allowed IP</label>
+                                        <input type="text" name="allowed_ip" class="form-control" placeholder="Ex: 128.199.22.11">
                                         <hr />
                                         <button id="btn-site-setting" class="btn btn-success" type="submit" style="width: 100%;text-align: center;">Save!</button>
                                     </form>

@@ -43,6 +43,7 @@ class SiteController extends Controller
             'cloudflare_api_key' => $request->cloudflare_api_key,
             'cloudflare_email_address' => $request->cloudflare_email_address,
             'watermark' => $request->watermark,
+            'allowed_ip' => $request->allowed_ip,
         ]);
 
         return abort(200);

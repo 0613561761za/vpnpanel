@@ -89,7 +89,7 @@ class FrontController extends Controller
     			'account_password' => $request->password,
     			'account_server' => $server->server_ip,
     			'account_create' => \Carbon\Carbon::now(),
-    			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
+    			'account_expired' => date('d-m-Y', strtotime(date('d-m-Y') . '+' . $server->server_account_expired . ' day')),
     			'account_status' => 1,
     		]);
 
@@ -101,7 +101,7 @@ class FrontController extends Controller
     				'username' => @Domain::first()->watermark . '-' . $request->username,
     				'password' => $request->password,
     				'created' => date('d-m-Y'),
-    				'expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired)->diffForHumans(),
+    				'expired' => date('d-m-Y', strtotime(date('d-m-Y') . '+' . $server->server_account_expired . ' day')),
     				'ip' => $server->server_ip,
     				'host' => $server->server_host,
     			],
@@ -168,7 +168,7 @@ class FrontController extends Controller
       			'account_password' => $request->password,
       			'account_server' => $server->server_ip,
       			'account_create' => \Carbon\Carbon::now(),
-      			'account_expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired),
+      			'account_expired' => date('d-m-Y', strtotime(date('d-m-Y') . '+' . $server->server_account_expired . ' day')),
       			'account_status' => 1,
       		]);
 
@@ -180,7 +180,7 @@ class FrontController extends Controller
       				'username' => @Domain::first()->watermark . '-' . $request->username,
       				'password' => $request->password,
       				'created' => date('d-m-Y'),
-      				'expired' => \Carbon\Carbon::now()->addDays($server->server_account_expired)->diffForHumans(),
+      				'expired' => date('d-m-Y', strtotime(date('d-m-Y') . '+' . $server->server_account_expired . ' day')),
       				'ip' => $server->server_ip,
       				'host' => $server->server_host,
       			],
@@ -188,10 +188,10 @@ class FrontController extends Controller
       		]);
         }
 
-        return response()->json([
-      		'status' => 'exists',
-      		'message' => 'VPN Account is already exists!'
-      	]);
+            return response()->json([
+          		'status' => 'error',
+          		'message' => 'Daily limit reached!'
+          	]);
     	}
 
     	return response()->json([
@@ -435,11 +435,17 @@ class FrontController extends Controller
         return view('squid-proxy')->with('squids',$squid);
     }
 
-    public function runCrons()
+    public function runExpiredCrons()
     {
-        $now = \Carbon\Carbon::now();
-        $expiredSSH = SSH::where('account_expired',$now)->get();
-        $expiredVPN = VPN::where('account_expired',$now)->get();
+        $allowed = Domain::first()->allowed_ip;
+        if($_SERVER['REMOTE_ADDR'] != $allowed)
+        {
+            return die('IP Not allowed');
+        }
+
+        $now = date('d-m-Y');
+        $expiredSSH = SSH::where('account_expired',$now)->where('account_status', 1)->get();
+        $expiredVPN = VPN::where('account_expired',$now)->where('account_status', 1)->get();
 
         if($expiredSSH->count() < 1)
         {
@@ -461,13 +467,13 @@ class FrontController extends Controller
               SSH::where('account_name', $sexpire->account_name)->where('account_server', $server->server_ip)->update([
                 'account_status' => 0,
               ]);
-              echo $sexpire->account_name . ' deleted!';
+              echo $sexpire->account_name . ' deleted! <br />';
           }
         }
 
         if($expiredVPN->count() < 1)
         {
-          echo "NO VPN Account Expired Today!<br />";
+          echo "No VPN Account Expired Today!<br />";
         }
         else
         {
@@ -482,13 +488,18 @@ class FrontController extends Controller
             }
 
             $ssh->exec('userdel ' . $vexpire->account_name);
-            VPN::where('account_name', $sexpire->account_name)->where('account_server', $server->server_ip)->update([
+            VPN::where('account_name', $vexpire->account_name)->where('account_server', $server->server_ip)->where('account_status', '1')->update([
                 'account_status' => 0,
             ]);
-            echo $vexpire->account_name . ' deleted!';
+            echo $vexpire->account_name . ' deleted! <br />';
           }
         }
 
+        
+    }
+
+    public function runServerLimitCrons()
+    {
         Server::where('server_is_limit', '!=', 0)->update(['server_is_limit' => 0]);
         echo "Daily limit flushed! <br />";
     }
